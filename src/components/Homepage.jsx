@@ -1,17 +1,11 @@
+import Header from "./Header";
 import MapCard from "./MapCard";
 import levelMaps from "./Maps";
 
 const Homepage = () => {
   return (
     <div className="flex flex-wrap justify-center">
-      <header className="flex h-20 w-full justify-between bg-accent text-primary">
-        <span className="flex items-center p-4 pt-2 font-mono text-3xl">
-          Seek-n-Spot
-        </span>
-        <a className="flex cursor-pointer items-center p-4 pt-2 font-mono hover:opacity-75">
-          Leaderboard
-        </a>
-      </header>
+      <Header />
       
       <h1 className="font-mono text-accent font-semibold text-2xl mt-5">Choose a map!</h1>
 
