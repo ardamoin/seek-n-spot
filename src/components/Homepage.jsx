@@ -17,7 +17,7 @@ const Homepage = () => {
         <MapCard image={levelMaps.PS2} levelName={"PS2"} />
         <MapCard image={levelMaps.PS4} levelName={"PS4"} />
         <MapCard image={levelMaps.Xbox} levelName={"Xbox"} />
-        <MapCard image={levelMaps.Xbox360} levelName={"Xbox 360"} />
+        <MapCard image={levelMaps.Xbox360} levelName={"Xbox360"} />
       </div>
     </div>
   );

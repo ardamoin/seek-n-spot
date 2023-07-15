@@ -1,3 +1,4 @@
+import Arena from "./components/Arena";
 import Header from "./components/Header";
 import Homepage from "./components/Homepage";
 import Leaderboard from "./components/Leaderboard";
@@ -9,7 +10,8 @@ function App() {
       <Header />
       <Routes>
         <Route element={<Homepage />} path="/homepage" />
-        <Route element={<Leaderboard />} path="/leaderboard"/>
+        <Route element={<Leaderboard />} path="/leaderboard" />
+        <Route element={<Arena />} path="/arena/:arenaMap" />
       </Routes>
     </div>
   );

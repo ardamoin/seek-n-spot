@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const MapCard = ({ image, className, levelName }) => {
   const [textVisibility, setTextVisibility] = useState("invisible");
@@ -14,10 +15,11 @@ const MapCard = ({ image, className, levelName }) => {
   };
 
   return (
-    <div
+    <Link
       className={`${className} relative flex cursor-pointer items-center justify-center transition-transform hover:scale-105`}
       onMouseOver={mouseOverHandler}
       onMouseOut={mouseOutHandler}
+      to={`/arena/${levelName}`}
     >
       <span className={`absolute z-10 text-4xl text-white ${textVisibility}`}>
         {levelName}
@@ -26,7 +28,7 @@ const MapCard = ({ image, className, levelName }) => {
         src={image}
         className={`relative z-0 h-[35rem] rounded-xl ${brightness}`}
       />
-    </div>
+    </Link>
   );
 };
 
