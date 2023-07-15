@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Header = () => {
   return (
     <header className="flex h-20 w-full justify-between bg-accent text-primary">
@@ -5,12 +7,18 @@ const Header = () => {
         Seek-n-Spot
       </span>
       <span className="flex">
-        <a className="flex cursor-pointer items-center p-4 pt-2 font-mono hover:opacity-75">
-          Maps
-        </a>
-        <a className="flex cursor-pointer items-center p-4 pt-2 font-mono hover:opacity-75">
+        <Link
+          className="flex cursor-pointer items-center p-4 pt-2 font-mono hover:opacity-75"
+          to="/homepage"
+        >
+          Home
+        </Link>
+        <Link
+          className="flex cursor-pointer items-center p-4 pt-2 font-mono hover:opacity-75"
+          to="/leaderboard"
+        >
           Leaderboard
-        </a>
+        </Link>
       </span>
     </header>
   );
