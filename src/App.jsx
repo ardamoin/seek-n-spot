@@ -9,7 +9,7 @@ function App() {
     <div className="flex h-auto flex-wrap bg-secondary">
       <Header/>
       <Routes>
-        <Route element={<Homepage />} path="/homepage" />
+        <Route element={<Homepage />} path="/" />
         <Route element={<Leaderboard />} path="/leaderboard" />
         <Route element={<Arena />} path="/arena/:arenaMap" />
       </Routes>

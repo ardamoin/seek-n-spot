@@ -9,7 +9,7 @@ const Header = () => {
       <span className="flex">
         <Link
           className="flex cursor-pointer items-center p-4 pt-2 font-mono hover:opacity-75"
-          to="/homepage"
+          to="/"
         >
           Home
         </Link>
