@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import levelMaps from "./Maps";
 import GameHeader from "./GameHeader";
 import charImages from "./CharacterImages";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import CharacterMarker from "./CharacterMarker";
 import charPositions from "./CharacterPositions";
 import ContextMenu from "./ContextMenu";
@@ -16,6 +16,8 @@ const initialContextMenu = {
 const Arena = () => {
   const [contextMenu, setContextMenu] = useState(initialContextMenu);
   const { arenaMap } = useParams();
+  const [characters, setCharacters] = useState(charImages[arenaMap])
+
   useEffect(() => {
     const oldHeader = document.getElementById("header");
     if (oldHeader) {
@@ -28,8 +30,6 @@ const Arena = () => {
     };
   }, []);
 
-  const imgRef = useRef();
-  let charNames = Object.keys(charImages[arenaMap]);
 
   const openContextMenu = (e) => {
     let rect = e.target.getBoundingClientRect();
@@ -42,9 +42,16 @@ const Arena = () => {
     setContextMenu(initialContextMenu);
   };
 
+  const removeCharacter = (characterName) => {
+    setCharacters((prev) => {
+      delete prev[characterName];
+      return prev;
+    })
+  }
+
   return (
     <div className="relative min-h-screen w-full">
-      <GameHeader characters={charImages[arenaMap]} />
+      <GameHeader characters={characters} />
       <img
         src={levelMaps[arenaMap]}
         className="h-full w-full bg-cover bg-center bg-no-repeat"
@@ -55,18 +62,18 @@ const Arena = () => {
             openContextMenu(e);
           }
         }}
-        ref={imgRef}
         id="arena-img"
       />
       {contextMenu.show && (
         <ContextMenu
           x={contextMenu.x}
           y={contextMenu.y}
-          names={charNames}
+          names={Object.keys(characters)}
           close={closeContextMenu}
+          removeCharacter={removeCharacter}
         />
       )}
-      {charNames.map((character) => (
+      {Object.keys(characters).map((character) => (
         <CharacterMarker
           key={Math.random()}
           charName={character}

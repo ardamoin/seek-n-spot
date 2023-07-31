@@ -47,7 +47,7 @@ const GameHeader = ({ characters }) => {
           className="rounded bg-purple-600 px-4 py-2 text-white"
           onMouseOver={showDropdown}
         >
-          Characters
+          Characters ({Object.keys(characters).length})
         </button>
 
         {/* Dropdown menu */}
