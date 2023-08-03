@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useStopwatch } from "react-timer-hook";
 
-const Stopwatch = () => {
+const Stopwatch = ({ numOfChars }) => {
   const {
     seconds,
     minutes,
@@ -13,8 +13,15 @@ const Stopwatch = () => {
     totalSeconds,
   } = useStopwatch({ autoStart: true });
 
+  useEffect(() => {
+    if (numOfChars < 1) {
+      console.log("game finished");
+      pause();
+    }
+  }, [numOfChars]);
+
   return (
-    <span className="mr-5 flex items-center font-mono text-2xl">
+    <span id="timer" className="mr-5 flex items-center font-mono text-2xl">
       {hours.toLocaleString("en-US", { minimumIntegerDigits: 2 })}:
       {minutes.toLocaleString("en-US", { minimumIntegerDigits: 2 })}:
       {seconds.toLocaleString("en-US", { minimumIntegerDigits: 2 })}
@@ -22,7 +29,7 @@ const Stopwatch = () => {
   );
 };
 
-const GameHeader = ({ characters }) => {
+const GameHeader = ({ characters, numOfChars }) => {
   const [dropdownDisplay, setDropdownDisplay] = useState("hidden");
 
   const showDropdown = () => {
@@ -34,7 +41,10 @@ const GameHeader = ({ characters }) => {
   };
 
   return (
-    <header id="game-header" className="fixed top-0 flex h-20 w-full items-center justify-between bg-accent text-primary">
+    <header
+      id="game-header"
+      className="fixed top-0 flex h-20 w-full items-center justify-between bg-accent text-primary"
+    >
       <span className="flex items-center p-4 pt-2 font-mono text-3xl">
         Seek-n-Spot
       </span>
@@ -56,19 +66,19 @@ const GameHeader = ({ characters }) => {
         >
           {Object.keys(characters).map((key) => {
             return (
-              <a
+              <p
                 key={Math.random()}
                 href="#"
                 className="flex w-full min-w-max items-center justify-center gap-5 px-4 py-2 font-semibold text-gray-800 hover:bg-purple-950 hover:text-white"
               >
                 {key}
                 <img src={characters[key]} className="h-28 w-28" />
-              </a>
+              </p>
             );
           })}
         </div>
       </div>
-      <Stopwatch />
+      <Stopwatch numOfChars={numOfChars} />
     </header>
   );
 };

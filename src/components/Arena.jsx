@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import CharacterMarker from "./CharacterMarker";
 import charPositions from "./CharacterPositions";
 import ContextMenu from "./ContextMenu";
+import ScoreInputModal from "./ScoreInputModal";
 
 const initialContextMenu = {
   show: false,
@@ -16,7 +17,10 @@ const initialContextMenu = {
 const Arena = () => {
   const [contextMenu, setContextMenu] = useState(initialContextMenu);
   const { arenaMap } = useParams();
-  const [characters, setCharacters] = useState(charImages[arenaMap])
+  const [characters, setCharacters] = useState(charImages[arenaMap]);
+  const [numberOfCharacters, setNumberOfCharacters] = useState(
+    Object.keys(charImages[arenaMap]).length
+  );
 
   useEffect(() => {
     const oldHeader = document.getElementById("header");
@@ -30,6 +34,7 @@ const Arena = () => {
     };
   }, []);
 
+  const timerRef = document.getElementById("timer");
 
   const openContextMenu = (e) => {
     let rect = e.target.getBoundingClientRect();
@@ -46,12 +51,13 @@ const Arena = () => {
     setCharacters((prev) => {
       delete prev[characterName];
       return prev;
-    })
-  }
+    });
+    setNumberOfCharacters((prev) => prev - 1);
+  };
 
   return (
     <div className="relative min-h-screen w-full">
-      <GameHeader characters={characters} />
+      <GameHeader characters={characters} numOfChars={numberOfCharacters} />
       <img
         src={levelMaps[arenaMap]}
         className="h-full w-full bg-cover bg-center bg-no-repeat"
@@ -81,6 +87,12 @@ const Arena = () => {
           positionTop={charPositions[arenaMap][character].top}
         />
       ))}
+      {numberOfCharacters < 1 && (
+        <ScoreInputModal
+          completedMap={arenaMap}
+          completionTime={timerRef.textContent}
+        />
+      )}
     </div>
   );
 };
