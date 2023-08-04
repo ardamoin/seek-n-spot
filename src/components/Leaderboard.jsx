@@ -1,16 +1,44 @@
-import { useState } from "react";
-import playerEntries from "./DummyData";
+import { useEffect, useState } from "react";
 import levelMaps from "./Maps";
+import { db } from "../firebase-config";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 
 const Leaderboard = () => {
-  const [userScoresFromMap, setUserScoresFromMap] = useState(
-    playerEntries.filter((p) => p.map === "Dreamcast")
-  );
+  const [userScoresFromMap, setUserScoresFromMap] = useState([]);
   const [imageSrc, setImageSrc] = useState(levelMaps.Dreamcast);
 
+  const scoresRef = collection(db, "Scores");
+
+  const convertTimeToNumber = (timeString) => {
+    // Takes completion time as a string (in the format 00:00:00) and converts it to an integer.
+    // This is a helper function to help sort player score data in ascending order of completion time.
+    const timeStringWithoutColon = timeString.replace(/:/g, '');
+    return +timeStringWithoutColon;
+  }
+
+  const updateScoreState = async (map) => {
+    const q = query(scoresRef, where("map", "==", map));
+      const querySnapshot = await getDocs(q);
+      let snapshotData = [];
+      querySnapshot.forEach((doc) => snapshotData.push(doc.data()));
+      snapshotData.sort((a, b) => convertTimeToNumber(a.time) - convertTimeToNumber(b.time));
+      setUserScoresFromMap(snapshotData);
+  }
+
+  useEffect(() => {
+    // Retrieves player scores for Dreamcast as the initial user scores
+    if (userScoresFromMap.length === 0) {
+      updateScoreState("Dreamcast");
+    }
+  }, []);
+
   const changeMap = (event) => {
-    let newMap = playerEntries.filter((p) => p.map === event.target.value);
-    setUserScoresFromMap(newMap);
+    updateScoreState(event.target.value)
     setImageSrc(levelMaps[event.target.value]);
   };
 
@@ -58,13 +86,13 @@ const Leaderboard = () => {
               return (
                 <tr key={Math.random()}>
                   <td className="max-w-sm border-2 border-solid border-gray-300 px-10 py-2 text-accent">
-                    {entry.playerName}
+                    {entry.player}
                   </td>
                   <td className="max-w-sm border-2 border-solid border-gray-300 px-10 py-2 text-accent">
-                    {entry.completionTime}
+                    {entry.time}
                   </td>
                   <td className="max-w-sm border-2 border-solid border-gray-300 px-10 py-2 text-accent">
-                    {entry.completionDate}
+                    {entry.date}
                   </td>
                 </tr>
               );

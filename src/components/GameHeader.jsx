@@ -6,11 +6,7 @@ const Stopwatch = ({ numOfChars }) => {
     seconds,
     minutes,
     hours,
-    isRunning,
-    start,
     pause,
-    reset,
-    totalSeconds,
   } = useStopwatch({ autoStart: true });
 
   useEffect(() => {
