@@ -7,7 +7,7 @@ const CharacterMarker = ({ charName, positionLeft, positionTop }) => {
     <div
       id={charName}
       style={markerStyle}
-      className="absolute z-20 rounded-full border-2 border-solid border-red-600"
+      className="absolute z-20 rounded-full border-2 border-solid border-transparent"
     ></div>
   );
 };
