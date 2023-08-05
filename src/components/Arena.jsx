@@ -7,6 +7,7 @@ import CharacterMarker from "./CharacterMarker";
 import charPositions from "./CharacterPositions";
 import ContextMenu from "./ContextMenu";
 import ScoreInputModal from "./ScoreInputModal";
+import { Alert, Snackbar } from "@mui/material";
 
 const initialContextMenu = {
   show: false,
@@ -21,6 +22,28 @@ const Arena = () => {
   const [numberOfCharacters, setNumberOfCharacters] = useState(
     Object.keys(charImages[arenaMap]).length
   );
+
+  const [successSnackbarOpen, setSuccessSnackbarOpen] = useState(false);
+  const [failureSnackbarOpen, setFailureSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("default");
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSuccessSnackbarOpen(false);
+    setFailureSnackbarOpen(false);
+  };
+
+  const openSuccessSnackbar = (characterName) => {
+    setSnackbarMessage(`Congrats you found ${characterName}!`);
+    setSuccessSnackbarOpen(true);
+  };
+
+  const openFailSnackbar = () => {
+    setSnackbarMessage("Keep looking");
+    setFailureSnackbarOpen(true);
+  };
 
   useEffect(() => {
     const oldHeader = document.getElementById("header");
@@ -58,6 +81,28 @@ const Arena = () => {
   return (
     <div className="relative min-h-screen w-full">
       <GameHeader characters={characters} numOfChars={numberOfCharacters} />
+
+      <Snackbar
+        open={successSnackbarOpen}
+        autoHideDuration={2000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
+
+      <Snackbar
+        open={failureSnackbarOpen}
+        autoHideDuration={2000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
       <img
         src={levelMaps[arenaMap]}
         className="h-full w-full bg-cover bg-center bg-no-repeat"
@@ -77,6 +122,8 @@ const Arena = () => {
           names={Object.keys(characters)}
           close={closeContextMenu}
           removeCharacter={removeCharacter}
+          openSuccessSnackbar={openSuccessSnackbar}
+          openFailSnackbar={openFailSnackbar}
         />
       )}
       {Object.keys(characters).map((character) => (

@@ -1,4 +1,12 @@
-const ContextMenu = ({ x, y, names, close, removeCharacter }) => {
+const ContextMenu = ({
+  x,
+  y,
+  names,
+  close,
+  removeCharacter,
+  openSuccessSnackbar,
+  openFailSnackbar,
+}) => {
   function measureDistance(element, cursorX, cursorY) {
     // Measures distance from element to cursor
     // Get the position and size of the element
@@ -36,10 +44,10 @@ const ContextMenu = ({ x, y, names, close, removeCharacter }) => {
     measureDistance(targetElement, x, y);
 
     if (measureDistance(targetElement, x, y) < 0.02) {
-      alert(`Congrats you found ${charcterName}!!!`);
+      openSuccessSnackbar(charcterName);
       removeCharacter(charcterName);
     } else {
-      alert("Keep looking");
+      openFailSnackbar();
     }
   };
 
