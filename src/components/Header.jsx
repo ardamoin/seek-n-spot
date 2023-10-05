@@ -15,7 +15,7 @@ const Header = () => {
         </Link>
         <Link
           className="flex cursor-pointer items-center p-4 pt-2 font-mono hover:opacity-75"
-          to="/leaderboard"
+          to="/leaderboard/Dreamcast"
         >
           Leaderboard
         </Link>

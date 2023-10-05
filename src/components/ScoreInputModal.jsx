@@ -33,7 +33,7 @@ const ScoreInputModal = ({ completedMap, completionTime }) => {
     setNameSubmitted(true);
 
     setTimeout(() => {
-      navigate("/leaderboard");
+      navigate(`/leaderboard/${completedMap}`);
     }, 2500);
   };
 

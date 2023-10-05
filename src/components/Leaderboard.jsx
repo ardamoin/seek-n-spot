@@ -8,9 +8,12 @@ import {
   where,
 } from "firebase/firestore";
 
+import { useParams } from "react-router-dom";
+
 const Leaderboard = () => {
   const [userScoresFromMap, setUserScoresFromMap] = useState([]);
-  const [imageSrc, setImageSrc] = useState(levelMaps.Dreamcast);
+  const { arenaMap } = useParams();
+  const [imageSrc, setImageSrc] = useState(levelMaps[arenaMap]);
 
   const scoresRef = collection(db, "Scores");
 
@@ -33,13 +36,19 @@ const Leaderboard = () => {
   useEffect(() => {
     // Retrieves player scores for Dreamcast as the initial user scores
     if (userScoresFromMap.length === 0) {
-      updateScoreState("Dreamcast");
+      updateScoreState(arenaMap);
     }
   }, []);
 
   const changeMap = (event) => {
     updateScoreState(event.target.value)
     setImageSrc(levelMaps[event.target.value]);
+
+    const currentURL = window.location.href;
+    const updatedURL = currentURL.split("/").slice(0, -1).concat(event.target.value).join("/");
+
+    // Updates URL to reflect the arena whose scores we are checking
+    window.history.replaceState(null, '', updatedURL)
   };
 
   return (
@@ -68,6 +77,7 @@ const Leaderboard = () => {
                   name="maps"
                   onChange={changeMap}
                   className="ml-2 cursor-pointer rounded-md p-2 font-normal"
+                  defaultValue={arenaMap}
                 >
                   <option value="Dreamcast">Dreamcast</option>
                   <option value="Gamecube">Gamecube</option>

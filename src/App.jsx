@@ -10,7 +10,7 @@ function App() {
       <Header/>
       <Routes>
         <Route element={<Homepage />} path="/" />
-        <Route element={<Leaderboard />} path="/leaderboard" />
+        <Route element={<Leaderboard />} path="/leaderboard/:arenaMap" />
         <Route element={<Arena />} path="/arena/:arenaMap" />
       </Routes>
     </div>
